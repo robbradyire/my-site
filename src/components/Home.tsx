@@ -6,8 +6,8 @@ const P = styled.p`
   font-size: 20px;
 `;
 
-const List = styled.li`
-  list-style: none;
+const List = styled.ul`
+  list-style-type: disclosure-closed;
 `;
 
 const links = [
