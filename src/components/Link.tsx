@@ -11,4 +11,9 @@ const Link: React.FC<React.ComponentPropsWithoutRef<'a'>> = ({
   ...rest
 }) => <StyledLink {...rest}>{children}</StyledLink>;
 
+Link.defaultProps = {
+  target: '_blank',
+  rel: 'noreferrer noopener',
+};
+
 export default Link;
