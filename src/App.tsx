@@ -1,15 +1,16 @@
-import React from 'react';
-import Home from './components/Home';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import React from "react";
+import Home from "./components/Home";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import NotFound from "./components/NotFound";
+import Photos from "./components/Photos";
 
 const App: React.FC = () => {
   return (
     <Router>
       <Switch>
-        <Route exact={true} path="/">
-          <Home />
-        </Route>
-        <Route path="/photos">My photos</Route>
+        <Route component={Home} exact={true} path="/" />
+        <Route component={Photos} path="/photos" />
+        <Route component={NotFound} />
       </Switch>
     </Router>
   );
