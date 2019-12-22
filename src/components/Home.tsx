@@ -2,12 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import Link from './Link';
 
-const P = styled.p`
-  font-size: 20px;
-`;
-
 const List = styled.ul`
   list-style-type: disclosure-closed;
+  line-height: 30px;
 `;
 
 const links = [
@@ -18,8 +15,8 @@ const links = [
 const Home: React.FC = () => (
   <React.Fragment>
     <h1>Robert Brady</h1>
-    <P>That's my name.</P>
-    <P>I'm still building this but here's some links:</P>
+    <p>That's my name.</p>
+    <p>I'm still building this but here's some links:</p>
     <List>
       {links.map(({ name, href }) => (
         <li key={href}>

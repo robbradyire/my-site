@@ -13,6 +13,7 @@ const GlobalStyle = createGlobalStyle`
     background-color: ${Colour.beige};
     color: ${Colour.dark};
     font-family: ornkey;
+    font-size: 20px;
     margin: 24px;
     padding: 0;
   }
