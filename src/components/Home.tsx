@@ -10,6 +10,7 @@ const List = styled.ul`
 const links = [
   { name: 'GitHub', href: 'https://github.com/robbradyire/' },
   { name: 'LinkedIn', href: 'https://www.linkedin.com/in/rbrady1/' },
+  { name: 'Bingo!', href: '/bingo' },
 ];
 
 const Home: React.FC = () => (
