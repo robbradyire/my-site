@@ -40,7 +40,8 @@ const Cell = styled.td<CellProps>`
   ${(props) =>
     props.struck &&
     css`
-      text-decoration: red wavy line-through;
+      background-color: ${Colour.dark};
+      color: ${Colour.beige};
     `}
 `;
 
