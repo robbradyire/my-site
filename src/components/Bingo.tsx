@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+import { Colour } from '../theme/colour';
 
 const CEILING = 75;
 const SQUARE_LENGTH = 5;
+
+const getCellIndex = (i: number, j: number) => i * SQUARE_LENGTH + j;
 
 const generateNumbers = () =>
   Array(SQUARE_LENGTH * SQUARE_LENGTH)
@@ -25,16 +28,41 @@ const StyledTable = styled.table`
   border: medium solid black;
 `;
 
-const Cell = styled.td`
-  border: medium solid black;
+interface CellProps {
+  struck?: boolean;
+}
+const Cell = styled.td<CellProps>`
+  border: medium solid ${Colour.dark};
+  cursor: pointer;
   padding: 8px;
   text-align: right;
   width: 2ch;
+  ${(props) =>
+    props.struck &&
+    css`
+      text-decoration: red wavy line-through;
+    `}
 `;
 
 const Bingo: React.FC = () => {
   const [numbers, setNumbers] = useState(generateNumbers());
-  const handleClickNewSheet = () => setNumbers(generateNumbers());
+  const [checkedNumbers, setCheckedNumbers] = useState<Record<number, boolean>>(
+    {}
+  );
+
+  const handleClickNewSheet = () => {
+    setNumbers(generateNumbers());
+    setCheckedNumbers({});
+  };
+
+  const getHandleClickCell = (i: number, j: number) => () =>
+    setCheckedNumbers(() => {
+      const cellIndex = getCellIndex(i, j);
+      return {
+        ...checkedNumbers,
+        [cellIndex]: !checkedNumbers[cellIndex],
+      };
+    });
 
   return (
     <div>
@@ -43,7 +71,13 @@ const Bingo: React.FC = () => {
           {getChunks(numbers).map((line, i) => (
             <tr key={i}>
               {line.map((n, j) => (
-                <Cell key={j}>{n}</Cell>
+                <Cell
+                  key={j}
+                  struck={checkedNumbers[getCellIndex(i, j)]}
+                  onClick={getHandleClickCell(i, j)}
+                >
+                  {n}
+                </Cell>
               ))}
             </tr>
           ))}
