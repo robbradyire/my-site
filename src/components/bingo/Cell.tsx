@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components';
 import { Colour } from '../../theme/colour';
 
 interface CellProps {
-  struck?: boolean;
+  checked: boolean;
 }
 
 const Cell = styled.td<CellProps>`
@@ -12,11 +12,15 @@ const Cell = styled.td<CellProps>`
   text-align: right;
   width: 2ch;
   ${(props) =>
-    props.struck &&
+    props.checked &&
     css`
       background-color: ${Colour.dark};
       color: ${Colour.beige};
     `}
 `;
+
+Cell.defaultProps = {
+  checked: false,
+};
 
 export default Cell;
