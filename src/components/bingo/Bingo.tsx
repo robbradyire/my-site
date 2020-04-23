@@ -5,7 +5,8 @@ import Cell from './Cell';
 const CEILING = 75;
 const SQUARE_LENGTH = 5;
 
-const getCellIndex = (i: number, j: number) => i * SQUARE_LENGTH + j;
+const getCellIndex = (row: number, column: number) =>
+  row * SQUARE_LENGTH + column;
 
 const generateNumbers = () =>
   Array(SQUARE_LENGTH * SQUARE_LENGTH)
@@ -39,9 +40,9 @@ const Bingo: React.FC = () => {
     setCheckedNumbers({});
   };
 
-  const getHandleClickCell = (i: number, j: number) => () =>
+  const getHandleClickCell = (row: number, column: number) => () =>
     setCheckedNumbers(() => {
-      const cellIndex = getCellIndex(i, j);
+      const cellIndex = getCellIndex(row, column);
       return {
         ...checkedNumbers,
         [cellIndex]: !checkedNumbers[cellIndex],
@@ -49,18 +50,18 @@ const Bingo: React.FC = () => {
     });
 
   return (
-    <div>
+    <React.Fragment>
       <StyledTable>
         <tbody>
-          {getChunks(numbers).map((line, i) => (
-            <tr key={i}>
-              {line.map((n, j) => (
+          {getChunks(numbers).map((chunk, row) => (
+            <tr key={row}>
+              {chunk.map((cell, column) => (
                 <Cell
-                  key={j}
-                  struck={checkedNumbers[getCellIndex(i, j)]}
-                  onClick={getHandleClickCell(i, j)}
+                  key={column}
+                  struck={checkedNumbers[getCellIndex(row, column)]}
+                  onClick={getHandleClickCell(row, column)}
                 >
-                  {n}
+                  {cell}
                 </Cell>
               ))}
             </tr>
@@ -68,7 +69,7 @@ const Bingo: React.FC = () => {
         </tbody>
       </StyledTable>
       <Button onClick={handleClickNewSheet}>New sheet</Button>
-    </div>
+    </React.Fragment>
   );
 };
 
