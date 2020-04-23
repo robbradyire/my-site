@@ -5,15 +5,17 @@ const tryParseInt = (str: string) =>
   NUMBER_REGEX.test(str) ? Number(str) : NaN;
 
 interface NumberInputProps extends React.ComponentPropsWithoutRef<'input'> {
+  currentValue: number;
   defaultValue: number;
   handleChangeValue: (value: number) => void;
-  currentValue: number;
+  text: string;
 }
 
 const NumberInput: React.FC<NumberInputProps> = ({
+  currentValue,
   defaultValue,
   handleChangeValue,
-  currentValue,
+  text,
   ...rest
 }) => {
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,6 +27,7 @@ const NumberInput: React.FC<NumberInputProps> = ({
   };
   return (
     <div>
+      <span>{text}</span>{' '}
       <input onChange={onChange} value={currentValue.toString()} {...rest} />
     </div>
   );

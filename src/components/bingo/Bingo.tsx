@@ -14,6 +14,7 @@ const Button = styled.button`
 
 const Input = styled(NumberInput)`
   margin-top: 12px;
+  max-width: 3ch;
 `;
 
 const Bingo: React.FC = () => {
@@ -57,6 +58,7 @@ const Bingo: React.FC = () => {
         currentValue={size}
         defaultValue={5}
         handleChangeValue={handleChangeSize}
+        text="Sheet size:"
       />
       <Button onClick={handleClickNewSheet}>New sheet</Button>
     </React.Fragment>
