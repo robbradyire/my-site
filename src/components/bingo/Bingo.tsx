@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import BingoTable from './BingoTable';
+import NumberInput from './NumberInput';
 
 const generateNumbers = (size: number, ceiling: number) =>
   Array(size * size)
@@ -11,8 +12,12 @@ const Button = styled.button`
   margin-top: 12px;
 `;
 
+const Input = styled(NumberInput)`
+  margin-top: 12px;
+`;
+
 const Bingo: React.FC = () => {
-  const size = 5;
+  const [size, setSize] = useState(5);
   const ceiling = 75;
   const [numbers, setNumbers] = useState(generateNumbers(size, ceiling));
   const [checkedNumbers, setCheckedNumbers] = useState<Record<number, boolean>>(
@@ -34,6 +39,12 @@ const Bingo: React.FC = () => {
     setCheckedNumbers({});
   };
 
+  const handleChangeSize = (newSize: number) => {
+    setSize(newSize);
+    setNumbers(generateNumbers(newSize, ceiling));
+    setCheckedNumbers({});
+  };
+
   return (
     <React.Fragment>
       <BingoTable
@@ -41,6 +52,11 @@ const Bingo: React.FC = () => {
         isChecked={(row, column) => checkedNumbers[getIndex(row, column)]}
         numbers={numbers}
         size={size}
+      />
+      <Input
+        currentValue={size}
+        defaultValue={5}
+        handleChangeValue={handleChangeSize}
       />
       <Button onClick={handleClickNewSheet}>New sheet</Button>
     </React.Fragment>
