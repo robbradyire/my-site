@@ -23,7 +23,7 @@ const NumberInput: React.FC<NumberInputProps> = ({
     setDisplayedValue(value);
 
     const newValue = tryParseInt(value);
-    if (!isNaN(newValue)) {
+    if (!isNaN(newValue) && newValue > 0) {
       handleChangeValue(newValue);
     }
   };

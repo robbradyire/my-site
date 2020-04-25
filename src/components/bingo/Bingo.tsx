@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import BingoTable from './BingoTable';
 import NumberInput from './NumberInput';
+
+const DEFAULT_SIZE = 5;
+const DEFAULT_CEILING = 75;
 
 const generateNumbers = (size: number, ceiling: number) =>
   Array(size * size)
@@ -18,12 +21,19 @@ const Input = styled(NumberInput)`
 `;
 
 const Bingo: React.FC = () => {
-  const [size, setSize] = useState(5);
-  const [ceiling, setCeiling] = useState(75);
+  const [size, setSize] = useState(DEFAULT_SIZE);
+  const [ceiling, setCeiling] = useState(DEFAULT_CEILING);
   const [numbers, setNumbers] = useState(generateNumbers(size, ceiling));
   const [checkedNumbers, setCheckedNumbers] = useState<Record<number, boolean>>(
     {}
   );
+
+  const generateNewSheet = () => {
+    setNumbers(generateNumbers(size, ceiling));
+    setCheckedNumbers({});
+  };
+
+  useEffect(generateNewSheet, [size, ceiling]);
 
   const getIndex = (row: number, column: number) => row * size + column;
   const isChecked = (row: number, column: number) =>
@@ -37,21 +47,9 @@ const Bingo: React.FC = () => {
     });
   };
 
-  const handleClickNewSheet = () => {
-    setNumbers(generateNumbers(size, ceiling));
-    setCheckedNumbers({});
-  };
-
-  const handleChangeSize = (newSize: number) => {
-    setSize(newSize);
-    setNumbers(generateNumbers(newSize, ceiling));
-    setCheckedNumbers({});
-  };
-
-  const handleChangeCeiling = (newCeiling: number) => {
-    setCeiling(newCeiling);
-    setNumbers(generateNumbers(size, newCeiling));
-    setCheckedNumbers({});
+  const handleResetDefaults = () => {
+    setSize(DEFAULT_SIZE);
+    setCeiling(DEFAULT_CEILING);
   };
 
   return (
@@ -63,16 +61,17 @@ const Bingo: React.FC = () => {
         size={size}
       />
       <Input
-        defaultValue={5}
-        handleChangeValue={handleChangeSize}
+        defaultValue={size}
+        handleChangeValue={setSize}
         text="Sheet size:"
       />
       <Input
-        defaultValue={75}
-        handleChangeValue={handleChangeCeiling}
+        defaultValue={ceiling}
+        handleChangeValue={setCeiling}
         text="Max bingo number:"
       />
-      <Button onClick={handleClickNewSheet}>New sheet</Button>
+      <Button onClick={generateNewSheet}>New sheet</Button>
+      <Button onClick={handleResetDefaults}>Reset defaults</Button>
     </React.Fragment>
   );
 };
