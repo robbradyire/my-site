@@ -19,7 +19,7 @@ const Input = styled(NumberInput)`
 
 const Bingo: React.FC = () => {
   const [size, setSize] = useState(5);
-  const ceiling = 75;
+  const [ceiling, setCeiling] = useState(75);
   const [numbers, setNumbers] = useState(generateNumbers(size, ceiling));
   const [checkedNumbers, setCheckedNumbers] = useState<Record<number, boolean>>(
     {}
@@ -46,6 +46,12 @@ const Bingo: React.FC = () => {
     setCheckedNumbers({});
   };
 
+  const handleChangeCeiling = (newCeiling: number) => {
+    setCeiling(newCeiling);
+    setNumbers(generateNumbers(size, newCeiling));
+    setCheckedNumbers({});
+  };
+
   return (
     <React.Fragment>
       <BingoTable
@@ -58,6 +64,11 @@ const Bingo: React.FC = () => {
         defaultValue={5}
         handleChangeValue={handleChangeSize}
         text="Sheet size:"
+      />
+      <Input
+        defaultValue={75}
+        handleChangeValue={handleChangeCeiling}
+        text="Max bingo number:"
       />
       <Button onClick={handleClickNewSheet}>New sheet</Button>
     </React.Fragment>
