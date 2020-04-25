@@ -26,6 +26,8 @@ const Bingo: React.FC = () => {
   );
 
   const getIndex = (row: number, column: number) => row * size + column;
+  const isChecked = (row: number, column: number) =>
+    checkedNumbers[getIndex(row, column)];
 
   const handleClickCell = (row: number, column: number) => {
     const index = getIndex(row, column);
@@ -56,7 +58,7 @@ const Bingo: React.FC = () => {
     <React.Fragment>
       <BingoTable
         handleClickCell={handleClickCell}
-        isChecked={(row, column) => checkedNumbers[getIndex(row, column)]}
+        isChecked={isChecked}
         numbers={numbers}
         size={size}
       />
