@@ -55,7 +55,6 @@ const Bingo: React.FC = () => {
         size={size}
       />
       <Input
-        currentValue={size}
         defaultValue={5}
         handleChangeValue={handleChangeSize}
         text="Sheet size:"

@@ -1,34 +1,36 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const NUMBER_REGEX = /^\d+$/;
 const tryParseInt = (str: string) =>
   NUMBER_REGEX.test(str) ? Number(str) : NaN;
 
 interface NumberInputProps extends React.ComponentPropsWithoutRef<'input'> {
-  currentValue: number;
   defaultValue: number;
   handleChangeValue: (value: number) => void;
   text: string;
 }
 
 const NumberInput: React.FC<NumberInputProps> = ({
-  currentValue,
   defaultValue,
   handleChangeValue,
   text,
   ...rest
 }) => {
+  const [displayedValue, setDisplayedValue] = useState(defaultValue.toString());
+
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
-    const newValue = tryParseInt(event.target.value);
+    setDisplayedValue(value);
+
+    const newValue = tryParseInt(value);
     if (!isNaN(newValue)) {
-      handleChangeValue(tryParseInt(value) || defaultValue);
+      handleChangeValue(newValue);
     }
   };
   return (
     <div>
       <span>{text}</span>{' '}
-      <input onChange={onChange} value={currentValue.toString()} {...rest} />
+      <input onChange={onChange} value={displayedValue} {...rest} />
     </div>
   );
 };
