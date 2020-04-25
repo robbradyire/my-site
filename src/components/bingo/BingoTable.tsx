@@ -10,7 +10,6 @@ interface BingoTableProps {
   handleClickCell: (row: number, column: number) => void;
   isChecked: (row: number, column: number) => boolean;
   numbers: number[];
-  size: number;
 }
 
 const getChunks = (array: any[], size: number) => {
@@ -24,9 +23,9 @@ const getChunks = (array: any[], size: number) => {
 const BingoTable: React.FC<BingoTableProps> = ({
   handleClickCell,
   isChecked,
-  size,
   numbers,
 }) => {
+  const size = Math.sqrt(numbers.length);
   return (
     <StyledTable>
       <tbody>

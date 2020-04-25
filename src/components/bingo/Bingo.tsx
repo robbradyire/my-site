@@ -58,7 +58,6 @@ const Bingo: React.FC = () => {
         handleClickCell={handleClickCell}
         isChecked={isChecked}
         numbers={numbers}
-        size={size}
       />
       <Input
         defaultValue={size}
