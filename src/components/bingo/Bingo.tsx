@@ -3,14 +3,10 @@ import styled from 'styled-components';
 import BingoTable from './BingoTable';
 import NumberInput from './NumberInput';
 import { isGreaterThan } from '../../utils/validation';
+import { generateNumbers } from '../../utils/random';
 
 const DEFAULT_SIZE = 5;
 const DEFAULT_CEILING = 75;
-
-const generateNumbers = (size: number, ceiling: number) =>
-  Array(size * size)
-    .fill(0)
-    .map(() => Math.floor(Math.random() * ceiling + 1));
 
 const Button = styled.button`
   margin-top: 12px;
@@ -33,6 +29,7 @@ const Bingo: React.FC = () => {
     setCheckedNumbers({});
   };
 
+  // TODO: if new size squared < ceiling, bump ceiling
   useEffect(generateNewSheet, [size, ceiling]);
 
   const getIndex = (row: number, column: number) => row * size + column;
