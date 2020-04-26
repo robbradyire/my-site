@@ -17,3 +17,8 @@ export const isGreaterThan = (target: number): InputValidator<number> => ({
   validator: (input) => input > target,
   getErrorMessage: (label) => `${label} must be greater than ${target}`,
 });
+
+export const isLessThan = (target: number): InputValidator<number> => ({
+  validator: (input) => input < target,
+  getErrorMessage: (label) => `${label} must be less than ${target}`,
+});
