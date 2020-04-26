@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import BingoTable from './BingoTable';
 import NumberInput from './NumberInput';
+import { isGreaterThan } from '../../utils/validation';
 
 const DEFAULT_SIZE = 5;
 const DEFAULT_CEILING = 75;
@@ -70,6 +71,7 @@ const Bingo: React.FC = () => {
         handleChangeValue={setCeiling}
         label="Max bingo number"
         maxLength={3}
+        validators={[isGreaterThan(size * size - 1)]}
       />
       <Button onClick={generateNewSheet}>New sheet</Button>
       <Button onClick={handleResetDefaults}>Reset defaults</Button>
