@@ -8,9 +8,10 @@ interface CellProps {
 const Cell = styled.td<CellProps>`
   border: medium solid ${Colour.dark};
   cursor: pointer;
+  height: 3ch;
   padding: 8px;
   text-align: right;
-  width: 2ch;
+  width: 3ch;
   ${(props) =>
     props.checked &&
     css`

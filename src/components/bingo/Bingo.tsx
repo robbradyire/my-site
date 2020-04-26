@@ -15,9 +15,8 @@ const Button = styled.button`
   margin-top: 12px;
 `;
 
-const Input = styled(NumberInput)`
+const StyledNumberInput = styled(NumberInput)`
   margin-top: 12px;
-  max-width: 3ch;
 `;
 
 const Bingo: React.FC = () => {
@@ -60,16 +59,17 @@ const Bingo: React.FC = () => {
         isChecked={isChecked}
         numbers={numbers}
       />
-      <Input
+      <StyledNumberInput
         defaultValue={size}
         handleChangeValue={setSize}
+        label="Sheet size"
         maxLength={2}
-        text="Sheet size:"
       />
-      <Input
+      <StyledNumberInput
         defaultValue={ceiling}
         handleChangeValue={setCeiling}
-        text="Max bingo number:"
+        label="Max bingo number"
+        maxLength={3}
       />
       <Button onClick={generateNewSheet}>New sheet</Button>
       <Button onClick={handleResetDefaults}>Reset defaults</Button>

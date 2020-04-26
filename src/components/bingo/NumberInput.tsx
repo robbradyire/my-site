@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import styled from 'styled-components';
 
 const NUMBER_REGEX = /^\d+$/;
 const tryParseInt = (str: string) =>
@@ -7,13 +8,17 @@ const tryParseInt = (str: string) =>
 interface NumberInputProps extends React.ComponentPropsWithoutRef<'input'> {
   defaultValue: number;
   handleChangeValue: (value: number) => void;
-  text: string;
+  label: string;
 }
+
+const StyledInput = styled.input`
+  ${({ maxLength }) => `max-width: ${maxLength}ch;`}
+`;
 
 const NumberInput: React.FC<NumberInputProps> = ({
   defaultValue,
   handleChangeValue,
-  text,
+  label,
   ...rest
 }) => {
   const [displayedValue, setDisplayedValue] = useState(defaultValue.toString());
@@ -35,15 +40,17 @@ const NumberInput: React.FC<NumberInputProps> = ({
   // maxValue, minValue, max bingo # > size*size
   return (
     <div>
-      <span>{text}</span>{' '}
-      <input
-        minLength={1}
-        onChange={onChange}
-        pattern="\d+"
-        ref={inputRef}
-        value={displayedValue}
-        {...rest}
-      />
+      <label htmlFor={label}>
+        {label}:{' '}
+        <StyledInput
+          id={label}
+          minLength={1}
+          onChange={onChange}
+          ref={inputRef}
+          value={displayedValue}
+          {...rest}
+        />
+      </label>{' '}
     </div>
   );
 };
