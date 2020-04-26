@@ -1,9 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import Cell from './Cell';
+import { Colour } from '../../theme/colour';
 
 const StyledTable = styled.table`
-  border: medium solid black;
+  border: medium solid ${Colour.dark};
+  border-spacing: 0;
 `;
 
 interface BingoTableProps {

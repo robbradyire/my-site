@@ -9,7 +9,7 @@ const Cell = styled.td<CellProps>`
   border: medium solid ${Colour.dark};
   cursor: pointer;
   height: 3ch;
-  padding: 8px;
+  padding: 4px;
   text-align: right;
   width: 3ch;
   ${(props) =>
