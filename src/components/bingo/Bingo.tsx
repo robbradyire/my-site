@@ -48,6 +48,7 @@ const Bingo: React.FC = () => {
   };
 
   const handleResetDefaults = () => {
+    // TODO: also reset input values
     setSize(DEFAULT_SIZE);
     setCeiling(DEFAULT_CEILING);
   };
@@ -62,6 +63,7 @@ const Bingo: React.FC = () => {
       <Input
         defaultValue={size}
         handleChangeValue={setSize}
+        maxLength={2}
         text="Sheet size:"
       />
       <Input
