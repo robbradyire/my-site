@@ -71,6 +71,9 @@ const Bingo: React.FC = () => {
     `The bingo numbers can only go up to ${MAX_CEILING} at most.`
   );
 
+  // TODO: Validation field-by-field does not work at all with these shitey
+  // controlled components - should rewrite how it all works to make sense.
+
   return (
     <React.Fragment>
       <BingoTable
