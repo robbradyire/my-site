@@ -1,5 +1,6 @@
 interface BaseValidator<T> {
   validator: (input: T) => boolean;
+  preconditions?: InputValidator<T>[];
 }
 interface Validator<T> extends BaseValidator<T> {
   errorMessage: string;
@@ -28,6 +29,7 @@ export const atLeast = (
 ): InputValidator<number> => ({
   validator: (input) => input >= target,
   errorMessage,
+  preconditions: [isNumber, nonZero],
 });
 
 export const atMost = (
@@ -36,4 +38,5 @@ export const atMost = (
 ): InputValidator<number> => ({
   validator: (input) => input <= target,
   errorMessage,
+  preconditions: [isNumber, nonZero],
 });

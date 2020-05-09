@@ -37,7 +37,17 @@ const NumberInput: React.FC<NumberInputProps> = ({
 
     const newValue = tryParseInt(value);
     const inputErrors: string[] = inputValidators.reduce(
-      (acc: string[], { errorMessage, getErrorMessage, validator }) => {
+      (
+        acc: string[],
+        { errorMessage, getErrorMessage, validator, preconditions }
+      ) => {
+        if (
+          preconditions &&
+          preconditions.length > 0 &&
+          preconditions.some((precon) => !precon.validator(newValue))
+        ) {
+          return acc;
+        }
         if (errorMessage !== undefined) {
           return validator(newValue) ? acc : [...acc, errorMessage];
         } else if (getErrorMessage !== undefined) {
