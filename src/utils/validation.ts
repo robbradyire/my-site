@@ -1,7 +1,16 @@
-export type InputValidator<T> = {
+interface BaseValidator<T> {
   validator: (input: T) => boolean;
+}
+interface Validator<T> extends BaseValidator<T> {
+  errorMessage: string;
+  getErrorMessage?: never;
+}
+interface DynamicErrorValidator<T> extends BaseValidator<T> {
+  errorMessage?: never;
   getErrorMessage: (label: string) => string;
-};
+}
+
+export type InputValidator<T> = Validator<T> | DynamicErrorValidator<T>;
 
 export const isNumber: InputValidator<number> = {
   validator: (input) => !Number.isNaN(input),
@@ -13,12 +22,18 @@ export const nonZero: InputValidator<number> = {
   getErrorMessage: (label) => `${label} can not be 0`,
 };
 
-export const isGreaterThan = (target: number): InputValidator<number> => ({
-  validator: (input) => input > target,
-  getErrorMessage: (label) => `${label} must be greater than ${target}`,
+export const atLeast = (
+  target: number,
+  errorMessage: string
+): InputValidator<number> => ({
+  validator: (input) => input >= target,
+  errorMessage,
 });
 
-export const isLessThan = (target: number): InputValidator<number> => ({
-  validator: (input) => input < target,
-  getErrorMessage: (label) => `${label} must be less than ${target}`,
+export const atMost = (
+  target: number,
+  errorMessage: string
+): InputValidator<number> => ({
+  validator: (input) => input <= target,
+  errorMessage,
 });

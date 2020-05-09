@@ -37,8 +37,14 @@ const NumberInput: React.FC<NumberInputProps> = ({
 
     const newValue = tryParseInt(value);
     const inputErrors: string[] = inputValidators.reduce(
-      (acc: string[], { getErrorMessage, validator }) =>
-        validator(newValue) ? acc : [...acc, getErrorMessage(label)],
+      (acc: string[], { errorMessage, getErrorMessage, validator }) => {
+        if (errorMessage !== undefined) {
+          return validator(newValue) ? acc : [...acc, errorMessage];
+        } else if (getErrorMessage !== undefined) {
+          return validator(newValue) ? acc : [...acc, getErrorMessage(label)];
+        }
+        return acc;
+      },
       []
     );
     setErrors(inputErrors);
@@ -47,8 +53,6 @@ const NumberInput: React.FC<NumberInputProps> = ({
     }
   };
 
-  // TODO: better validation and error reporting
-  // maxValue, minValue, max bingo # > size*size
   return (
     <div>
       <label htmlFor={label}>

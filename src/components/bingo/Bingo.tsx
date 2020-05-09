@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import BingoTable from './BingoTable';
 import NumberInput from './NumberInput';
-import { isGreaterThan, isLessThan } from '../../utils/validation';
+import { atLeast, atMost } from '../../utils/validation';
 import { generateNumbers } from '../../utils/random';
 
 const DEFAULT_SIZE = 5;
 const DEFAULT_CEILING = 75;
+const MAX_SIZE = 31;
+const MAX_CEILING = 999;
 
 const Button = styled.button`
   margin-top: 12px;
@@ -30,7 +32,6 @@ const Bingo: React.FC = () => {
     setCheckedNumbers({});
   };
 
-  // TODO: if new size squared < ceiling, bump ceiling
   useEffect(generateNewSheet, [size, ceiling]);
 
   const getIndex = (row: number, column: number) => row * size + column;
@@ -48,8 +49,27 @@ const Bingo: React.FC = () => {
   const handleResetDefaults = () => {
     setSize(DEFAULT_SIZE);
     setCeiling(DEFAULT_CEILING);
-    setKey(key + 1); // forces re-render to correct inputs
+    setKey(key + 1); // forces reset of input field values
   };
+
+  const maxSizeForCeiling = Math.floor(Math.sqrt(ceiling));
+  const maxSizeValidators = [
+    atMost(MAX_SIZE, `Only grids up to ${MAX_SIZE}x${MAX_SIZE} are permitted.`),
+    atMost(
+      maxSizeForCeiling,
+      `Because the max bingo number is ${ceiling}, the max grid size is ${maxSizeForCeiling}x${maxSizeForCeiling}.`
+    ),
+  ];
+
+  const sizeSquared = size * size;
+  const minCeilingValidator = atLeast(
+    sizeSquared,
+    `Because the sheet size is ${size}x${size}, the max bingo number must be at least ${sizeSquared}.`
+  );
+  const maxCeilingValidator = atMost(
+    MAX_CEILING,
+    `The bingo numbers can only go up to ${MAX_CEILING} at most.`
+  );
 
   return (
     <React.Fragment>
@@ -64,7 +84,7 @@ const Bingo: React.FC = () => {
         key={key}
         label="Sheet size"
         maxLength={2}
-        validators={[isLessThan(32)]}
+        validators={maxSizeValidators}
       />
       <StyledNumberInput
         defaultValue={ceiling}
@@ -72,7 +92,7 @@ const Bingo: React.FC = () => {
         key={key + 2}
         label="Max bingo number"
         maxLength={3}
-        validators={[isGreaterThan(size * size - 1), isLessThan(1000)]}
+        validators={[minCeilingValidator, maxCeilingValidator]}
       />
       <Button onClick={generateNewSheet}>New sheet</Button>
       <Button onClick={handleResetDefaults}>Reset defaults</Button>
