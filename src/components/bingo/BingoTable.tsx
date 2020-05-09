@@ -22,6 +22,7 @@ const getChunks = (array: any[], size: number) => {
   return chunks;
 };
 
+// TODO: Centre cell should be blank (and "checked" by default)
 const BingoTable: React.FC<BingoTableProps> = ({
   handleClickCell,
   isChecked,
