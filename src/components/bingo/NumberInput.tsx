@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 import { tryParseInt } from '../../utils/parsing';
-import { nonZero, InputValidator, isNumber } from '../../utils/validation';
+import { nonZero, Validator, isNumber } from '../../utils/validation';
 
 const DEFAULT_VALIDATORS = [isNumber, nonZero];
 
@@ -9,7 +9,7 @@ interface NumberInputProps extends React.ComponentPropsWithoutRef<'input'> {
   defaultValue: number;
   handleChangeValue: (value: number) => void;
   label: string;
-  validators?: InputValidator<number>[];
+  validators?: Validator<number>[];
 }
 
 const StyledInput = styled.input`
@@ -37,10 +37,7 @@ const NumberInput: React.FC<NumberInputProps> = ({
 
     const newValue = tryParseInt(value);
     const inputErrors: string[] = inputValidators.reduce(
-      (
-        acc: string[],
-        { errorMessage, getErrorMessage, validator, preconditions }
-      ) => {
+      (acc: string[], { getErrorMessage, validator, preconditions }) => {
         if (
           preconditions &&
           preconditions.length > 0 &&
@@ -48,12 +45,7 @@ const NumberInput: React.FC<NumberInputProps> = ({
         ) {
           return acc;
         }
-        if (errorMessage !== undefined) {
-          return validator(newValue) ? acc : [...acc, errorMessage];
-        } else if (getErrorMessage !== undefined) {
-          return validator(newValue) ? acc : [...acc, getErrorMessage(label)];
-        }
-        return acc;
+        return validator(newValue) ? acc : [...acc, getErrorMessage(label)];
       },
       []
     );
