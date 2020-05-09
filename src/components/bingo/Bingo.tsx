@@ -17,6 +17,7 @@ const StyledNumberInput = styled(NumberInput)`
 `;
 
 const Bingo: React.FC = () => {
+  const [key, setKey] = useState(0);
   const [size, setSize] = useState(DEFAULT_SIZE);
   const [ceiling, setCeiling] = useState(DEFAULT_CEILING);
   const [numbers, setNumbers] = useState(generateNumbers(size, ceiling));
@@ -45,9 +46,9 @@ const Bingo: React.FC = () => {
   };
 
   const handleResetDefaults = () => {
-    // TODO: also reset input values
     setSize(DEFAULT_SIZE);
     setCeiling(DEFAULT_CEILING);
+    setKey(key + 1); // forces re-render to correct inputs
   };
 
   return (
@@ -60,6 +61,7 @@ const Bingo: React.FC = () => {
       <StyledNumberInput
         defaultValue={size}
         handleChangeValue={setSize}
+        key={key}
         label="Sheet size"
         maxLength={2}
         validators={[isLessThan(32)]}
@@ -67,6 +69,7 @@ const Bingo: React.FC = () => {
       <StyledNumberInput
         defaultValue={ceiling}
         handleChangeValue={setCeiling}
+        key={key + 2}
         label="Max bingo number"
         maxLength={3}
         validators={[isGreaterThan(size * size - 1), isLessThan(1000)]}
